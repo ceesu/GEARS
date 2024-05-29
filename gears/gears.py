@@ -133,6 +133,10 @@ class GEARS:
                          G_go_weight = None,
                          G_coexpress = None,
                          G_coexpress_weight = None,
+                         G_go_network=None,
+                         G_go_edge_list=None,
+                         G_coexpress_network=None,
+                         G_coexpress_edge_list=None,
                          no_perturb = False, 
                         ):
         """
@@ -190,6 +194,10 @@ class GEARS:
                        'G_go_weight': G_go_weight,
                        'G_coexpress': G_coexpress,
                        'G_coexpress_weight': G_coexpress_weight,
+                       'G_go_network':G_go_network,
+                       'G_go_edge_list':G_go_edge_list,
+                       'G_coexpress_network':G_coexpress_network,
+                       'G_coexpress_edge_list':G_coexpress_edge_list,
                        'device': self.device,
                        'num_genes': self.num_genes,
                        'num_perts': self.num_perts,
@@ -212,6 +220,8 @@ class GEARS:
                                                set2conditions=self.set2conditions)
 
             sim_network = GeneSimNetwork(edge_list, self.gene_list, node_map = self.node_map)
+            self.config['G_coexpress_edge_list'] = edge_list
+            self.config['G_coexpress_network'] = sim_network
             self.config['G_coexpress'] = sim_network.edge_index
             self.config['G_coexpress_weight'] = sim_network.edge_weight
         
@@ -232,6 +242,8 @@ class GEARS:
             sim_network = GeneSimNetwork(edge_list, self.pert_list, node_map = self.node_map_pert)
             self.config['G_go'] = sim_network.edge_index
             self.config['G_go_weight'] = sim_network.edge_weight
+            self.config['G_go_edge_list'] = edge_list
+            self.config['G_go_network'] = sim_network
             
         self.model = GEARS_Model(self.config).to(self.device)
         self.best_model = deepcopy(self.model)
