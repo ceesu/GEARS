@@ -18,7 +18,7 @@ def rank_genes_groups_by_cov(
     control_group,
     covariate,
     pool_doses=False,
-    n_genes=50,
+    n_genes=None,
     rankby_abs=True,
     key_added='rank_genes_groups_cov',
     return_dict=False,
@@ -42,6 +42,12 @@ def rank_genes_groups_by_cov(
             n_genes=n_genes,
             use_raw=False
         )
+
+        # save the resulting DE dataframe to curr working directory
+        out=sc.get.rank_genes_groups_df(adata_cov, key='rank_genes_groups_cov_all',group=None,
+                                        gene_symbols='gene_name')
+        current_working_directory = os.path.abspath(os.getcwd())
+        out.to_csv(current_working_directory+ '/'+covariate+'_'+ cov_cat+'_de_genes.csv')
 
         #add entries to dictionary of gene sets
         de_genes = pd.DataFrame(adata_cov.uns['rank_genes_groups']['names'])
