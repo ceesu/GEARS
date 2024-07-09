@@ -44,7 +44,7 @@ def rank_genes_groups_by_cov(
         )
 
         # save the resulting DE dataframe to curr working directory
-        out=sc.get.rank_genes_groups_df(adata_cov, key='rank_genes_groups_cov_all',group=None,
+        out=sc.get.rank_genes_groups_df(adata_cov, group=None,
                                         gene_symbols='gene_name')
         current_working_directory = os.path.abspath(os.getcwd())
         out.to_csv(current_working_directory+ '/'+covariate+'_'+ cov_cat+'_de_genes.csv')
